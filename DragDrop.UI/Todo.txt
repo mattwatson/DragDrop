@@ -1,5 +1,8 @@
 ﻿Features
 	When the item is dropped it should be placed into the correct ListBox
+	   can track the listbox when the mouse is not captured by the looks of it.
+	   Might need to uncapture the mouse and then decide which thing to put the data in
+	   Have to deal with the case where the mouse is outside a listbox as well as outside the window.
 	When the item is dropped it should be inserted at the index under the mouse (or at the end if we are past the bottom)
 	Show preview of where things are going to end up when then have finished moving
 	Multiple select
@@ -7,5 +10,5 @@
 	
 
 Bugs
-	Width when dragging should be the same as when 'docked'
-	Improve the position of the thing relative to the mouse and where the thing was clicked
+X	Width when dragging should be the same as when 'docked'
+X	Improve the position of the thing relative to the mouse and where the thing was clicked
