@@ -150,21 +150,57 @@ namespace DragDrop.UI
             //e.Handled = true;
         }
 
-        private void OnListBoxItemMouseMove(object sender, MouseEventArgs e)
+        private void OnMouseMove(object sender, MouseEventArgs e)
         {
-            var listBoxItem = sender as ListBoxItem;
-            if (listBoxItem != null && isDragging)
+            if (isDragging)
             {
-                CurrentPosition = e.GetPosition(MainGrid);
-                var xPosition = CurrentPosition.X - DragStartPosition.X;
-                var yPosition = CurrentPosition.Y - DragStartPosition.Y;
-                DraggedItem.RenderTransform = new TranslateTransform(xPosition, yPosition);
+                var listBoxItem = sender as ListBoxItem;
+                if (listBoxItem != null && isDragging)
+                {
+                    CurrentPosition = e.GetPosition(MainGrid);
+                    var xPosition = CurrentPosition.X - DragStartPosition.X;
+                    var yPosition = CurrentPosition.Y - DragStartPosition.Y;
+                    DraggedItem.RenderTransform = new TranslateTransform(xPosition, yPosition);
 
-                IsOutsideWindow = CurrentPosition.Y < 0 || CurrentPosition.Y > MainGrid.ActualHeight ||
-                                  CurrentPosition.X < 0 || CurrentPosition.X > MainGrid.ActualWidth;
-            }    
+                    IsOutsideWindow = CurrentPosition.Y < 0 || CurrentPosition.Y > MainGrid.ActualHeight ||
+                                      CurrentPosition.X < 0 || CurrentPosition.X > MainGrid.ActualWidth;
+                }    
+            }
+
+            if (IsDropping)
+            {
+                var listBoxItem = sender as ListBoxItem;
+                var listBox = sender as ListBox;
+                if (listBoxItem != null)
+                {
+                    CurrentListBox = listBoxItem.Parent as ListBox;
+                    var index = CurrentListBox.Items.IndexOf(listBoxItem);
+                    DropItem(CurrentListBox, index);
+                }
+                else if (listBox != null)
+                {
+                    var position = e.GetPosition(listBox);
+                    CurrentListBox = listBox;
+
+                    var index = 0;
+                    var heightSoFar = 0d;
+                    foreach (ListBoxItem item in CurrentListBox.Items)
+                    {
+                        heightSoFar += item.ActualHeight;
+                        if (position.Y > heightSoFar)
+                        {
+                            index++;
+                        }
+                    }
+                    
+                    DropItem(listBox, index);
+                }
+                else
+                {
+                    DropItem(initialListBox, InitialIndex);
+                }
+            }
         }
-
 
         private void OnListBoxItemMouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -195,24 +231,6 @@ namespace DragDrop.UI
             DragContainer.Children.Remove(DraggedItem);
             IsDragging = false;
             IsDropping = true;
-        }
-
-        private void OnWindowMouseMove(object sender, MouseEventArgs e)
-        {
-            if (IsDropping)
-            {
-                var listBox = sender as ListBox;
-                if (listBox != null)
-                {
-                    CurrentListBox = listBox;
-
-                    DropItem(listBox, 0);
-                }
-                else
-                {
-                    DropItem(initialListBox, InitialIndex);
-                }    
-            }
         }
 
         private void DropItem(ListBox listBox, int index)

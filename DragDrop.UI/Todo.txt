@@ -7,6 +7,9 @@
 	Show preview of where things are going to end up when then have finished moving
 	Multiple select
 	Left button dragging
+	AutoScrolling when you go out of bounds
+	Could perhaps just track if the mouse is over the various elements we care about whenever it is moved
+	Then as soon as the mouse button is released, the drop can happen immediately
 	
 
 Bugs
