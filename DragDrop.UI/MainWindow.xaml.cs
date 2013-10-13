@@ -9,14 +9,48 @@ namespace DragDrop.UI
 {
     public partial class MainWindow
     {
-        private bool isDragging;
+        private int initialIndex;
+        
+
         private Point dragStartPosition;
-        private ListBoxItem draggedItem;
-        private int dragCount;
+        private Point dragEndPosition;
 
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private ListBoxItem draggedItem;
+        private ListBoxItem DraggedItem
+        {
+            get { return draggedItem; }
+            set
+            {
+                draggedItem = value;
+                txtDraggedItem.Text = draggedItem == null ? "" : draggedItem.Content.ToString();
+            }
+        }
+
+        private bool isDragging;
+        private bool IsDragging
+        {
+            get { return isDragging; }
+            set
+            {
+                isDragging = value;
+                txtIsDragging.Text = IsDragging.ToString();
+            }
+        }
+
+        private ListBox initialListBox;
+        private ListBox InitialListBox
+        {
+            get { return initialListBox; }
+            set
+            {
+                initialListBox = value;
+                txtInitialListBox.Text = initialListBox == null ? "" : initialListBox.Name;
+            }
         }
 
         private void OnListBoxItemMouseDown(object sender, MouseButtonEventArgs e)
@@ -26,8 +60,6 @@ namespace DragDrop.UI
                 var item = sender as ListBoxItem;
                 if (item != null)
                 {
-                    Debug.WriteLine("Picked up " + item.Content);
-
                     StartDragging(e, item);
                 }
             }
@@ -35,13 +67,25 @@ namespace DragDrop.UI
 
         private void StartDragging(MouseButtonEventArgs e, ListBoxItem item)
         {
-            isDragging = true;
-            dragStartPosition = e.GetPosition(this);
-            draggedItem = item;
-            draggedItem.CaptureMouse();
-            var listBox = draggedItem.Parent as ListBox;
-            //listBox.
-            //DragContainer.Children.Add(draggedItem);
+            IsDragging = true;
+
+            var mousePosition = e.GetPosition(this);
+            var listBoxItemPosition = e.GetPosition(item);
+
+            dragStartPosition = new Point(mousePosition.X + listBoxItemPosition.X, mousePosition.Y + listBoxItemPosition.Y);
+
+            DraggedItem = item;
+            
+            DraggedItem.CaptureMouse();
+            var listBox = DraggedItem.Parent as ListBox;
+            if (listBox != null)
+            {
+                InitialListBox = listBox;
+
+                initialIndex = listBox.Items.IndexOf(DraggedItem);
+                listBox.Items.Remove(DraggedItem);
+                DragContainer.Children.Add(DraggedItem);
+            }
 
             //e.Handled = true;
         }
@@ -49,13 +93,13 @@ namespace DragDrop.UI
         private void OnListBoxItemMouseMove(object sender, MouseEventArgs e)
         {
             var listBoxItem = sender as ListBoxItem;
-            if (listBoxItem != null && ReferenceEquals(listBoxItem, draggedItem))
+            if (listBoxItem != null && ReferenceEquals(listBoxItem, DraggedItem))
             {
-                var currentPosition = e.GetPosition(this) - dragStartPosition;
+                var currentPosition = e.GetPosition(this);
 
                 Debug.WriteLine("Dragging " + listBoxItem.Content + " (" + currentPosition + ")");
 
-                draggedItem.RenderTransform = new TranslateTransform(currentPosition.X, currentPosition.Y);
+                DraggedItem.RenderTransform = new TranslateTransform(currentPosition.X, currentPosition.Y);
             }
         }
 
@@ -64,9 +108,9 @@ namespace DragDrop.UI
             if (e.ChangedButton == MouseButton.Right)
             {
                 var listBoxItem = sender as ListBoxItem;
-                if (listBoxItem != null && ReferenceEquals(listBoxItem, draggedItem))
+                if (listBoxItem != null && ReferenceEquals(listBoxItem, DraggedItem))
                 {
-                    Debug.WriteLine("Dropped " + draggedItem.Content);
+                    Debug.WriteLine("Dropped " + DraggedItem.Content);
 
                     StopDragging();
                 }
@@ -75,18 +119,28 @@ namespace DragDrop.UI
 
         private void StopDragging()
         {
-            isDragging = false;
-            draggedItem.ReleaseMouseCapture();
-            draggedItem.RenderTransform = null;
-            draggedItem = null;
+            DraggedItem.ReleaseMouseCapture();
+            DraggedItem.RenderTransform = null;
+            
+            DragContainer.Children.Remove(DraggedItem);
+
+            if (InitialListBox != null)
+            {
+                InitialListBox.Items.Insert(initialIndex, DraggedItem);
+
+                InitialListBox = null;
+            }
+
+            IsDragging = false;
+            
+            DraggedItem = null;
         }
 
         private void OnListBoxMouseMove(object sender, MouseEventArgs e)
         {
             var listBox = sender as ListBox;
-            if (listBox != null && isDragging)
+            if (listBox != null && IsDragging)
             {
-                Debug.WriteLine("Over " + listBox.Name);
                 var random = new Random();
                 listBox.Background = new SolidColorBrush(Color.FromRgb((byte)random.Next(255), (byte)random.Next(255), (byte)random.Next(255)));
             }
@@ -97,7 +151,7 @@ namespace DragDrop.UI
             if (e.ChangedButton == MouseButton.Right)
             {
                 var listBox = sender as ListBox;
-                if (listBox != null && isDragging)
+                if (listBox != null && IsDragging)
                 {
                     Debug.WriteLine("Dropped in " + listBox.Name);
                 }

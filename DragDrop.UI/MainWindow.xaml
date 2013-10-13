@@ -12,18 +12,28 @@
           <EventSetter Event="PreviewMouseUp" Handler="OnListBoxItemMouseUp" />
          </Style.Setters>
       </Style>
+      <Style TargetType="{x:Type ListBox}">
+        <Style.Setters>
+          <Setter Property="SelectionMode" Value="Single"/>
+          <Setter Property="Margin" Value="5"/>
+          <EventSetter Event="MouseUp" Handler="OnListBoxMouseUp" />
+          <EventSetter Event="PreviewMouseMove" Handler="OnListBoxMouseMove" />
+        </Style.Setters>
+      </Style>
     </Grid.Resources>
     <Grid.ColumnDefinitions>
       <ColumnDefinition/>
       <ColumnDefinition Width="Auto"/>
       <ColumnDefinition/>
     </Grid.ColumnDefinitions>
-    <Canvas Name="DragContainer"/>
     
-    <GroupBox Grid.Column="0" Header="Available" Margin="5" ClipToBounds="False">
-      <ListBox SelectionMode="Extended" 
-               MouseUp="OnListBoxMouseUp" 
-               PreviewMouseMove="OnListBoxMouseMove">
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    
+    <GroupBox Grid.Column="0" Header="Available">
+      <ListBox x:Name="AvailableListBox">
         <ListBoxItem>Currency</ListBoxItem>
         <ListBoxItem>ATM</ListBoxItem>
         <ListBoxItem Content="Strike"/>
@@ -31,15 +41,41 @@
       </ListBox>
     </GroupBox>
 
-    <GroupBox Grid.Column="2" Header="Selected" Margin="5" ClipToBounds="False">
-      <ListBox SelectionMode="Extended" 
-               MouseUp="OnListBoxMouseUp" 
-               PreviewMouseMove="OnListBoxMouseMove" ClipToBounds="False">
+    <GroupBox Grid.Column="2" Header="Selected">
+      <ListBox x:Name="SelectedColumnListBox">
         <ListBoxItem>Vega</ListBoxItem>
         <ListBoxItem>Delta</ListBoxItem>
         <ListBoxItem Content="Group"/>
         <ListBoxItem Content="Notional"/>
       </ListBox>
     </GroupBox>
+
+    <Canvas Name="DragContainer" Grid.ColumnSpan="2" Background="{x:Null}"/>
+    
+    <Grid Grid.Row="2">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition/>
+        <ColumnDefinition/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition/>
+        <RowDefinition/>
+        <RowDefinition/>
+        <RowDefinition/>
+      </Grid.RowDefinitions>
+
+      <TextBlock Grid.Row="0" Grid.Column="0">IsDragging</TextBlock>
+      <TextBlock Grid.Row="0" Grid.Column="1" Name="txtIsDragging"/>
+      
+      <TextBlock Grid.Row="1" Grid.Column="0">InitialListBox</TextBlock>
+      <TextBlock Grid.Row="1" Grid.Column="1" Name="txtInitialListBox"/>
+      
+      <TextBlock Grid.Row="2" Grid.Column="0">InitialIndex</TextBlock>
+      <TextBlock Grid.Row="2" Grid.Column="1" Name="txtInitialIndex"/>
+      
+      <TextBlock Grid.Row="3" Grid.Column="0">DraggedItem</TextBlock>
+      <TextBlock Grid.Row="3" Grid.Column="1" Name="txtDraggedItem"/>
+      
+    </Grid>
   </Grid>
 </Window>
