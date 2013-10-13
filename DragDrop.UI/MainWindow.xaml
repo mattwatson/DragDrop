@@ -62,6 +62,7 @@
         <RowDefinition/>
         <RowDefinition/>
         <RowDefinition/>
+        <RowDefinition/>
       </Grid.RowDefinitions>
 
       <TextBlock Grid.Row="0" Grid.Column="0">IsDragging</TextBlock>
@@ -75,6 +76,9 @@
       
       <TextBlock Grid.Row="3" Grid.Column="0">DraggedItem</TextBlock>
       <TextBlock Grid.Row="3" Grid.Column="1" Name="txtDraggedItem"/>
+      
+      <TextBlock Grid.Row="4" Grid.Column="0">DragStartPosition</TextBlock>
+      <TextBlock Grid.Row="4" Grid.Column="1" Name="txtDragStartPosition"/>
       
     </Grid>
   </Grid>

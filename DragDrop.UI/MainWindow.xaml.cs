@@ -9,10 +9,6 @@ namespace DragDrop.UI
 {
     public partial class MainWindow
     {
-        private int initialIndex;
-        
-
-        private Point dragStartPosition;
         private Point dragEndPosition;
 
         public MainWindow()
@@ -53,6 +49,28 @@ namespace DragDrop.UI
             }
         }
 
+        private int initialIndex;
+        private int InitialIndex
+        {
+            get { return initialIndex; }
+            set
+            {
+                initialIndex = value;
+                txtInitialIndex.Text = initialIndex.ToString();
+            }
+        }
+
+        private Point dragStartPosition;
+        private Point DragStartPosition
+        {
+            get { return dragStartPosition; }
+            set
+            {
+                dragStartPosition = value;
+                txtDragStartPosition.Text = dragStartPosition.ToString();
+            }
+        }
+
         private void OnListBoxItemMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Right)
@@ -69,10 +87,7 @@ namespace DragDrop.UI
         {
             IsDragging = true;
 
-            var mousePosition = e.GetPosition(this);
-            var listBoxItemPosition = e.GetPosition(item);
-
-            dragStartPosition = new Point(mousePosition.X + listBoxItemPosition.X, mousePosition.Y + listBoxItemPosition.Y);
+            DragStartPosition = e.GetPosition(item);
 
             DraggedItem = item;
             
@@ -82,7 +97,7 @@ namespace DragDrop.UI
             {
                 InitialListBox = listBox;
 
-                initialIndex = listBox.Items.IndexOf(DraggedItem);
+                InitialIndex = listBox.Items.IndexOf(DraggedItem);
                 listBox.Items.Remove(DraggedItem);
                 DragContainer.Children.Add(DraggedItem);
             }
@@ -96,6 +111,7 @@ namespace DragDrop.UI
             if (listBoxItem != null && ReferenceEquals(listBoxItem, DraggedItem))
             {
                 var currentPosition = e.GetPosition(this);
+                currentPosition.Offset(-dragStartPosition.X, -dragStartPosition.Y);
 
                 Debug.WriteLine("Dragging " + listBoxItem.Content + " (" + currentPosition + ")");
 
@@ -124,15 +140,10 @@ namespace DragDrop.UI
             
             DragContainer.Children.Remove(DraggedItem);
 
-            if (InitialListBox != null)
-            {
-                InitialListBox.Items.Insert(initialIndex, DraggedItem);
-
-                InitialListBox = null;
-            }
+            InitialListBox.Items.Insert(InitialIndex, DraggedItem);
+            InitialListBox = null;
 
             IsDragging = false;
-            
             DraggedItem = null;
         }
 

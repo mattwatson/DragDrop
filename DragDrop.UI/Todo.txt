@@ -1,0 +1,11 @@
+﻿Features
+	When the item is dropped it should be placed into the correct ListBox
+	When the item is dropped it should be inserted at the index under the mouse (or at the end if we are past the bottom)
+	Show preview of where things are going to end up when then have finished moving
+	Multiple select
+	Left button dragging
+	
+
+Bugs
+	Width when dragging should be the same as when 'docked'
+	Improve the position of the thing relative to the mouse and where the thing was clicked
