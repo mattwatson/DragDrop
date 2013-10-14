@@ -7,6 +7,7 @@
       <Style TargetType="{x:Type ListBoxItem}">
         <Style.Setters>
           <Setter Property="AllowDrop" Value="true"/>
+          <Setter Property="Background" Value="White"/>
           <EventSetter Event="PreviewMouseDown" Handler="OnListBoxItemMouseDown"/>
           <EventSetter Event="MouseMove" Handler="OnMouseMove" />
           <EventSetter Event="PreviewMouseUp" Handler="OnListBoxItemMouseUp" />
@@ -16,6 +17,8 @@
         <Style.Setters>
           <Setter Property="SelectionMode" Value="Single"/>
           <Setter Property="Margin" Value="5"/>
+          <Setter Property="BorderThickness" Value="3"/>
+          <Setter Property="BorderBrush" Value="Transparent"/>
           <EventSetter Event="MouseUp" Handler="OnListBoxMouseUp" />
           <EventSetter Event="MouseMove" Handler="OnMouseMove" />
         </Style.Setters>

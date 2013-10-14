@@ -114,6 +114,9 @@ namespace DragDrop.UI
         }
 
         private ListBox currentListBox;
+        private readonly SolidColorBrush _mouseOverBrush = new SolidColorBrush(Colors.PowderBlue);
+        private readonly SolidColorBrush _transparentBrush = new SolidColorBrush(Colors.Transparent);
+
         private ListBox CurrentListBox
         {
             get { return currentListBox; }
@@ -123,7 +126,7 @@ namespace DragDrop.UI
                 txtCurrentListBox.Text = currentListBox == null ? "" : currentListBox.Name;
             }
         }
-
+        
         private void OnListBoxItemMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -142,7 +145,7 @@ namespace DragDrop.UI
         {
             IsAboutToDrag = false;
             IsDragging = true;
-            
+
             DraggedItem.Width = DraggedItem.ActualWidth;
             DraggedItem.Height = DraggedItem.ActualHeight;
             
@@ -181,8 +184,39 @@ namespace DragDrop.UI
                     var yPosition = CurrentPosition.Y - DragStartPosition.Y;
                     DraggedItem.RenderTransform = new TranslateTransform(xPosition, yPosition);
 
-                    IsOutsideWindow = CurrentPosition.Y < 0 || CurrentPosition.Y > MainGrid.ActualHeight ||
-                                      CurrentPosition.X < 0 || CurrentPosition.X > MainGrid.ActualWidth;
+
+                    if (IsMouseOverFrameWorkElement(AvailableListBox, e))
+                    {
+                        AvailableListBox.BorderBrush = _mouseOverBrush;
+                        
+                    }
+                    else
+                    {
+                        AvailableListBox.BorderBrush = _transparentBrush;
+                    }
+
+                    if (IsMouseOverFrameWorkElement(SelectedColumnListBox, e))
+                    {
+                        var position = e.GetPosition(SelectedColumnListBox);
+                        
+                        var heightSoFar = 0d;
+                        foreach (ListBoxItem item in SelectedColumnListBox.Items)
+                        {
+                            heightSoFar += item.ActualHeight;
+                            item.RenderTransform = position.Y < heightSoFar
+                                                       ? new TranslateTransform(0, draggedItem.ActualHeight)
+                                                       : null;
+                        }
+
+                        SelectedColumnListBox.BorderBrush = _mouseOverBrush;
+                    }
+                    else
+                    {
+                        SelectedColumnListBox.BorderBrush = _transparentBrush;
+                    }
+
+
+                    IsOutsideWindow = !IsMouseOverFrameWorkElement(MainGrid, e);
                 }    
             }
 
@@ -221,13 +255,21 @@ namespace DragDrop.UI
             }
         }
 
+        private bool IsMouseOverFrameWorkElement(FrameworkElement item, MouseEventArgs e)
+        {
+            var position = e.GetPosition(item);
+
+            return position.Y > 0 && position.Y < item.ActualHeight &&
+                position.X > 0 && position.X < item.ActualWidth;
+        }
+
         private void OnListBoxItemMouseUp(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
             {
                 if (isAboutToDrag)
                 {
-                    isAboutToDrag = false;
+                    IsAboutToDrag = false;
                     DraggedItem = null;
                 }
                 if (isDragging)
@@ -258,6 +300,14 @@ namespace DragDrop.UI
             DragContainer.Children.Remove(DraggedItem);
             IsDragging = false;
             IsDropping = true;
+
+            foreach (ListBoxItem listboxItem in SelectedColumnListBox.Items)
+            {
+                listboxItem.RenderTransform = null;
+            }
+
+            SelectedColumnListBox.BorderBrush = _transparentBrush;
+            AvailableListBox.BorderBrush = _transparentBrush;
         }
 
         private void DropItem(ListBox listBox, int index)

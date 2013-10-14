@@ -1,16 +1,18 @@
 ﻿Features
-	When the item is dropped it should be placed into the correct ListBox
-	   can track the listbox when the mouse is not captured by the looks of it.
-	   Might need to uncapture the mouse and then decide which thing to put the data in
-	   Have to deal with the case where the mouse is outside a listbox as well as outside the window.
-	When the item is dropped it should be inserted at the index under the mouse (or at the end if we are past the bottom)
-	Show preview of where things are going to end up when then have finished moving
-	Multiple select
-	Left button dragging
+X	When the item is dropped it should be placed into the correct ListBox
+X	   Can track the listbox when the mouse is not captured by the looks of it.
+X	   Might need to uncapture the mouse and then decide which thing to put the data in
+X	   Have to deal with the case where the mouse is outside a listbox as well as outside the window.
+X	When the item is dropped it should be inserted at the index under the mouse (or at the end if we are past the bottom)
+X	Show preview of where things are going to end up when then have finished moving for visible
+	Show preview of where things are going to end up when then have finished moving for available
+	Maintain order for available
+	Multi-select
+X	Left button dragging
 	AutoScrolling when you go out of bounds
-	Could perhaps just track if the mouse is over the various elements we care about whenever it is moved
-	Then as soon as the mouse button is released, the drop can happen immediately
-	
+.	Could perhaps just track if the mouse is over the various elements we care about whenever it is moved
+.	Then as soon as the mouse button is released, the drop can happen immediately
+	Significant tidy up	
 
 Bugs
 X	Width when dragging should be the same as when 'docked'
