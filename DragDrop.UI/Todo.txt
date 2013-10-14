@@ -15,3 +15,4 @@
 Bugs
 X	Width when dragging should be the same as when 'docked'
 X	Improve the position of the thing relative to the mouse and where the thing was clicked
+	If the window looses focus, dragging should be cancelled

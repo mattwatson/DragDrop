@@ -72,34 +72,37 @@
         <RowDefinition/>
       </Grid.RowDefinitions>
 
-      <TextBlock Grid.Row="0" Grid.Column="0">IsDragging</TextBlock>
-      <TextBlock Grid.Row="0" Grid.Column="1" Name="txtIsDragging"/>
-      
-      <TextBlock Grid.Row="1" Grid.Column="0">InitialListBox</TextBlock>
-      <TextBlock Grid.Row="1" Grid.Column="1" Name="txtInitialListBox"/>
-      
-      <TextBlock Grid.Row="2" Grid.Column="0">InitialIndex</TextBlock>
-      <TextBlock Grid.Row="2" Grid.Column="1" Name="txtInitialIndex"/>
-      
-      <TextBlock Grid.Row="3" Grid.Column="0">DraggedItem</TextBlock>
-      <TextBlock Grid.Row="3" Grid.Column="1" Name="txtDraggedItem"/>
-      
-      <TextBlock Grid.Row="4" Grid.Column="0">DragStartPosition</TextBlock>
-      <TextBlock Grid.Row="4" Grid.Column="1" Name="txtDragStartPosition"/>
+      <TextBlock Grid.Row="0" Grid.Column="0" Text="IsAboutToDrag"/>
+      <TextBlock Grid.Row="0" Grid.Column="1" Name="txtIsAboutToDrag"/>
 
-      <TextBlock Grid.Row="5" Grid.Column="0" Text=""></TextBlock>
+      <TextBlock Grid.Row="1" Grid.Column="0" Text="IsDragging"/>
+      <TextBlock Grid.Row="1" Grid.Column="1" Name="txtIsDragging"/>
 
-      <TextBlock Grid.Row="6" Grid.Column="0">CurrentPosition</TextBlock>
-      <TextBlock Grid.Row="6" Grid.Column="1" Name="txtCurrentPosition"/>
-      
-      <TextBlock Grid.Row="7" Grid.Column="0">CurrentListBox</TextBlock>
-      <TextBlock Grid.Row="7" Grid.Column="1" Name="txtCurrentListBox"/>
-      
-      <TextBlock Grid.Row="8" Grid.Column="0">IsOutsideWindow</TextBlock>
-      <TextBlock Grid.Row="8" Grid.Column="1" Name="txtIsOutsideWindow"/>
-      
-      <TextBlock Grid.Row="9" Grid.Column="0">IsDropping</TextBlock>
-      <TextBlock Grid.Row="9" Grid.Column="1" Name="txtIsDropping"/>
+      <TextBlock Grid.Row="2" Grid.Column="0" Text="IsDropping"/>
+      <TextBlock Grid.Row="2" Grid.Column="1" Name="txtIsDropping"/>
+
+      <TextBlock Grid.Row="3" Grid.Column="0" Text="InitialListBox"/>
+      <TextBlock Grid.Row="3" Grid.Column="1" Name="txtInitialListBox"/>
+
+      <TextBlock Grid.Row="4" Grid.Column="0" Text="InitialIndex"/>
+      <TextBlock Grid.Row="4" Grid.Column="1" Name="txtInitialIndex"/>
+
+      <TextBlock Grid.Row="5" Grid.Column="0" Text="DraggedItem"/>
+      <TextBlock Grid.Row="5" Grid.Column="1" Name="txtDraggedItem"/>
+
+      <TextBlock Grid.Row="6" Grid.Column="0" Text="DragStartPosition"/>
+      <TextBlock Grid.Row="6" Grid.Column="1" Name="txtDragStartPosition"/>
+
+      <TextBlock Grid.Row="7" Grid.Column="0" Text=""/>
+
+      <TextBlock Grid.Row="8" Grid.Column="0" Text="CurrentPosition"/>
+      <TextBlock Grid.Row="8" Grid.Column="1" Name="txtCurrentPosition"/>
+
+      <TextBlock Grid.Row="9" Grid.Column="0" Text="CurrentListBox"/>
+      <TextBlock Grid.Row="9" Grid.Column="1" Name="txtCurrentListBox"/>
+
+      <TextBlock Grid.Row="10" Grid.Column="0" Text="IsOutsideWindow"/>
+      <TextBlock Grid.Row="10" Grid.Column="1" Name="txtIsOutsideWindow"/>
     </Grid>
   </Grid>
 </Window>
